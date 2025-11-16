@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-title">
+  <h3>Department of {{ dept_name }}</h3>
+  <a href="{{ url_for('patient.dashboard') }}">&laquo; Back to Departments</a>
+</div>
+
+<div class="dashboard-widget full-width">
+  <h5>Overview</h5>
+  <p>The Department of {{ dept_name }} is dedicated to providing excellent care. Our specialists are listed below.</p>
+  
+  <h5 style="margin-top: 20px;">Doctors' List</h5>
+  <ul class="widget-list">
+    {% for d in doctors %}
+    <li class="widget-list-item">
+      <div class="item-info">
+        <div class="name">Dr. {{ d[1] }}</div>
+        <div class="detail">{{ d[2] or 'No bio provided.' }}</div>
+      </div>
+      <div class="item-actions">
+        <a href="{{ url_for('patient.doctor_availability', doc_id=d[0]) }}" class="btn btn-primary">Check Availability</a>
+        </div>
+    </li>
+    {% endfor %}
+    {% if not doctors %}
+    <li class="widget-list-item">
+      <p>No doctors found for this department.</p>
+    </li>
+    {% endif %}
+  </ul>
+</div>
+{% endblock %}

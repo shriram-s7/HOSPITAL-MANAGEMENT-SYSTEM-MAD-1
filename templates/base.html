@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hospital Management</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <header class="main-header">
+    <a href="/" class="logo">HMS</a>
+    {% if session.username %}
+      <div class="user-info">
+        <span>Welcome, <strong>{{ session.username }}</strong> ({{ session.role }})</span>
+        {% if session.role == 'patient' %}
+          <a href="{{ url_for('patient.history') }}">My History</a> |
+          <a href="{{ url_for('patient.edit_profile') }}">My Profile</a> |
+        {% endif %}
+        <a href="{{ url_for('auth.logout') }}">Logout</a>
+      </div>
+    {% endif %}
+  </header>
+
+  <main class="container">
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <ul class="flash-messages">
+        {% for category, message in messages %}
+          <li class="flash-{{ category }}">{{ message }}</li>
+        {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+
+</body>
+</html>

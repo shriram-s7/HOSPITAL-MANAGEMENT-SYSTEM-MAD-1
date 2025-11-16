@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-title">
+  <h3>Medical History for {{ patient[1] }}</h3>
+  <a href="{{ url_for('doctor.dashboard') }}">&laquo; Back to Dashboard</a>
+</div>
+
+<div class="dashboard-widget full-width">
+  <h5>All Past Treatments</h5>
+  {% if treatments %}
+    {% for t in treatments %}
+    <div class="history-item">
+      <div class="history-item-header">
+        <div class="doctor">Treated by: Dr. {{ t[7] }}</div>
+        <div class="date">Visited on: {{ t[6] }}</div>
+      </div>
+      <p><strong>Diagnosis:</strong> {{ t[2] }}</p>
+      <p><strong>Prescription:</strong> {{ t[3] }}</p>
+      <p><strong>Notes:</strong> {{ t[4] }}</p>
+      <p><small>Recorded at: {{ t[5] }}</small></p>
+    </div>
+    {% endfor %}
+  {% else %}
+    <p>This patient has no past treatment records.</p>
+  {% endif %}
+</div>
+{% endblock %}

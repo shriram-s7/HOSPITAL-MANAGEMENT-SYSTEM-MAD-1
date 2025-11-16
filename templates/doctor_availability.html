@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="page-title">
+  <h3>Book Appointment</h3>
+  <a href="{{ url_for('patient.department_detail', dept_name=doctor[2]) }}">&laquo; Back to Doctor List</a>
+</div>
+
+<div class="dashboard-widget full-width">
+  <div class="doctor-profile-card">
+    <img src="https://via.placeholder.com/80" alt="Doctor Avatar">
+    <div class="info">
+      <h4>Dr. {{ doctor[1] }}</h4>
+      <p>{{ doctor[2] }}</p>
+      <p>{{ doctor[3] or 'Specialist in this field.' }}</p>
+    </div>
+  </div>
+
+  <hr>
+  
+  <h5>Doctor's Availability (Next 7 Days)</h5>
+  <p>Select a green slot to book your appointment.</p>
+  
+  <form method="post" action="{{ url_for('patient.book') }}">
+    <input type="hidden" name="doctor_id" value="{{ doctor[0] }}">
+    <input type="hidden" name="availability_id" id="selected_availability_id">
+    
+    <div class="availability-grid-container">
+      {% for date in week_dates %}
+      <div class="availability-day">
+        <div class="day-header">{{ date.split('-')[2] }}<br><small>{{ date.split('-')[1] }}/{{ date.split('-')[0] }}</small></div>
+        <div class="slots">
+          {% set slots = availability[date] %}
+          {% if slots %}
+            {% for slot in slots %}
+              {% if slot[2] == 1 %} <button type="button" 
+                        class="slot slot-available" 
+                        data-id="{{ slot[0] }}"
+                        onclick="selectSlot(this, '{{ slot[0] }}')">
+                  {{ slot[1] }}
+                </button>
+              {% else %}
+                <button type="button" class="slot slot-booked" disabled>
+                  {{ slot[1] }}
+                </button>
+              {% endif %}
+            {% endfor %}
+          {% else %}
+            <p style="text-align:center; font-size: 13px; color: var(--text-light);">No Slots</p>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    
+    <button type="submit" class="btn btn-success" id="book-button" style="margin-top: 20px;" disabled>
+      Book Selected Slot
+    </button>
+  </form>
+</div>
+
+<script>
+  // Simple JS to handle slot selection
+  let selectedSlotButton = null;
+  const hiddenInput = document.getElementById('selected_availability_id');
+  const bookButton = document.getElementById('book-button');
+
+  function selectSlot(button, availabilityId) {
+    // Remove highlight from previously selected
+    if (selectedSlotButton) {
+      selectedSlotButton.style.border = 'none';
+      selectedSlotButton.style.boxShadow = 'none';
+    }
+    
+    // Highlight new button
+    button.style.border = '3px solid var(--primary-color)';
+    button.style.boxShadow = '0 0 10px rgba(0,123,255,0.5)';
+    selectedSlotButton = button;
+    
+    // Set hidden input value
+    hiddenInput.value = availabilityId;
+    
+    // Enable book button
+    bookButton.disabled = false;
+  }
+</script>
+{% endblock %}

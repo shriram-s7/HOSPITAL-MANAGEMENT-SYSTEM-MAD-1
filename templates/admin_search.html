@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Search Results for "{{ q }}"</h3>
+
+{% if doctors %}
+  <h5>Doctors</h5>
+  <ul class="list-group mb-2">
+    {% for d in doctors %}
+      <li class="list-group-item">
+        {{ d[2] }} - {{ d[3] }} ({{ d[1] }})
+        <a class="btn btn-sm btn-secondary float-end" href="{{ url_for('admin.edit_doctor', doc_id=d[0]) }}">Edit</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+{% if patients %}
+  <h5>Patients</h5>
+  <ul class="list-group">
+    {% for p in patients %}
+      <li class="list-group-item">
+        {{ p[2] }} ({{ p[1] }}) - {{ p[3] }}
+        <a class="btn btn-sm btn-secondary float-end" href="{{ url_for('admin.edit_patient', patient_id=p[0]) }}">Edit</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+{% if not doctors and not patients %}
+  <p>No results found.</p>
+{% endif %}
+{% endblock %}

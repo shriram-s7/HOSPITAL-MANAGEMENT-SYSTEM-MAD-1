@@ -1,0 +1,380 @@
+/* --- Global Styles --- */
+:root {
+    --bg-color: #f0f2f5;
+    --card-bg: #ffffff;
+    --border-color: #d9d9d9;
+    --primary-color: #007bff;
+    --text-color: #333;
+    --text-light: #777;
+    --green: #28a745;
+    --red: #dc3545;
+    --yellow: #ffc107;
+    --blue: #007bff;
+    --grey: #6c757d;
+    --box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 90%;
+    max-width: 1400px;
+    margin: 20px auto;
+}
+
+h1, h2, h3, h4, h5 {
+    margin-top: 0;
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+/* --- Buttons --- */
+.btn {
+    display: inline-block;
+    padding: 8px 14px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    transition: opacity 0.2s;
+}
+.btn:hover {
+    opacity: 0.8;
+    text-decoration: none;
+}
+.btn-primary { background-color: var(--primary-color); color: white; }
+.btn-success { background-color: var(--green); color: white; }
+.btn-danger { background-color: var(--red); color: white; }
+.btn-secondary { background-color: var(--grey); color: white; }
+.btn-warning { background-color: var(--yellow); color: black; }
+.btn-small { padding: 4px 8px; font-size: 12px; }
+
+/* --- Forms --- */
+.form-group {
+    margin-bottom: 15px;
+}
+.form-group label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+.form-control {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    box-sizing: border-box; /* Important */
+}
+textarea.form-control {
+    min-height: 80px;
+}
+
+/* --- Login / Register Page --- */
+.login-register-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+    gap: 30px;
+}
+.form-box {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--box-shadow);
+    border-radius: 8px;
+    padding: 30px;
+    width: 400px;
+}
+.form-box h3 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.form-box .btn {
+    width: 100%;
+}
+.form-box p {
+    text-align: center;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+/* --- Flashed Messages --- */
+.flash-messages {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+.flash-messages li {
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+.flash-success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+.flash-danger { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+.flash-warning { background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+
+
+/* --- Main Header / Nav --- */
+.main-header {
+    background: var(--card-bg);
+    padding: 15px 5%;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: var(--box-shadow);
+}
+.main-header .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--text-color);
+}
+.main-header .user-info {
+    font-size: 14px;
+}
+.main-header .user-info span {
+    margin-right: 15px;
+}
+.main-header .user-info a {
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+/* --- Dashboard Layout --- */
+.page-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 20px;
+}
+.dashboard-widget {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: var(--box-shadow);
+    padding: 20px;
+    /* Fix height issue */
+    overflow: hidden; 
+}
+.dashboard-widget.full-width {
+    grid-column: 1 / -1;
+}
+.dashboard-widget h5 {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+/* --- Widget Content (Lists, Forms) --- */
+.widget-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    max-height: 400px;
+    overflow-y: auto;
+}
+.widget-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 5px;
+    border-bottom: 1px solid #eee;
+}
+.widget-list-item:last-child {
+    border-bottom: none;
+}
+.widget-list-item .item-info {
+    font-size: 14px;
+}
+.widget-list-item .item-info .name {
+    font-weight: 500;
+    color: #000;
+}
+.widget-list-item .item-info .detail {
+    font-size: 13px;
+    color: var(--text-light);
+}
+.widget-list-item .item-actions {
+    display: flex;
+    gap: 5px;
+    flex-shrink: 0; /* Prevents shrinking */
+}
+.widget-list-item .item-actions form {
+    display: inline-block;
+}
+
+/* Table Style */
+.table-wrapper {
+    max-height: 400px;
+    overflow-y: auto;
+}
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+.data-table th, .data-table td {
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    text-align: left;
+}
+.data-table th {
+    background-color: #f9f9f9;
+}
+.data-table tr:nth-child(even) {
+    background-color: #fdfdfd;
+}
+.data-table .action-cell {
+    min-width: 150px;
+}
+.data-table .action-cell form {
+    margin-top: 5px;
+}
+
+/* Patient Department List */
+.department-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+}
+.department-card {
+    display: block;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 20px;
+    font-size: 18px;
+    font-weight: 500;
+    text-align: center;
+    box-shadow: var(--box-shadow);
+    transition: all 0.2s;
+}
+.department-card:hover {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+    text-decoration: none;
+}
+
+/* Doctor Profile / Availability */
+.doctor-profile-card {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.doctor-profile-card img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #eee;
+}
+.doctor-profile-card .info h4 {
+    margin-bottom: 5px;
+}
+.doctor-profile-card .info p {
+    margin: 0;
+    color: var(--text-light);
+}
+
+/* Availability Grid */
+.availability-grid-container {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 15px;
+}
+.availability-day {
+    flex: 1 0 200px; /* Flex-basis 200px, can grow */
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    background: #fafafa;
+}
+.availability-day .day-header {
+    font-weight: bold;
+    text-align: center;
+    padding: 10px;
+    background: #f1f1f1;
+    border-bottom: 1px solid var(--border-color);
+}
+.availability-day .slots {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.slot {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    box-sizing: border-box; /* Important */
+}
+.slot-available {
+    background-color: var(--green);
+    color: white;
+}
+.slot-available:hover {
+    opacity: 0.8;
+}
+.slot-booked {
+    background-color: var(--red);
+    color: white;
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* History Page */
+.history-item {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-bottom: 15px;
+    padding: 20px;
+}
+.history-item-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+.history-item-header .doctor {
+    font-size: 18px;
+    font-weight: 500;
+}
+.history-item-header .date {
+    font-size: 14px;
+    color: var(--text-light);
+}
+.history-item p {
+    margin: 5px 0;
+}
+.history-item strong {
+    color: #000;
+}

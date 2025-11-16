@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Appointment Details</h3>
+{% if ap %}
+  <p><strong>Doctor:</strong> {{ ap[1] }}</p>
+  <p><strong>Date/Time:</strong> {{ ap[2] }} / {{ ap[3] }}</p>
+  <p><strong>Status:</strong> {{ ap[4] }}</p>
+  <hr>
+  {% if treatment %}
+    <h5>Treatment</h5>
+    <p><strong>Diagnosis:</strong> {{ treatment[0] }}</p>
+    <p><strong>Prescription:</strong> {{ treatment[1] }}</p>
+    <p><strong>Notes:</strong> {{ treatment[2] }}</p>
+    <p><small>Recorded at {{ treatment[3] }}</small></p>
+  {% else %}
+    <p>No treatment recorded yet.</p>
+  {% endif %}
+{% else %}
+  <p>Appointment not found or access denied.</p>
+{% endif %}
+{% endblock %}
