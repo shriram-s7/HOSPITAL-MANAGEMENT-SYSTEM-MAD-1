@@ -97,17 +97,12 @@ def provide_availability():
     except Exception:
         flash("Could not add availability", "danger")
     return redirect(url_for("doctor.dashboard"))
-
-# (Find this function in doctor.py and replace it)
-
-# (Find this function in doctor.py and replace it)
-
 @doctor_bp.route("/patient/<int:patient_id>/history", methods=["GET"])
 def patient_history(patient_id):
     if not doctor_required():
         return redirect("/login")
     
-    # UPDATED QUERY: We have removed t.notes from the SELECT list
+    # CHANGE IS HERE: We removed "t.notes" from this list
     treatments = query_all("""
         SELECT t.id, t.appointment_id, t.diagnosis, t.prescription, t.created_at, a.date, d.fullname
         FROM treatments t
