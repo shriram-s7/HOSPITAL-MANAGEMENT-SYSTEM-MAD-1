@@ -122,3 +122,9 @@ def search_doctor():
     q=request.args.get("q","").strip()
     doctors=query_all("""SELECT id, fullname, specialization, bio FROM doctors WHERE fullname LIKE ? OR specialization LIKE ?""",(f"%{q}%",f"%{q}%"))
     return render_template("department_detail.html",dept_name=f"Search Results for '{q}'",doctors=doctors)
+@patient_bp.route("/api/doctors", methods=["GET"])
+def api_doctors():
+    docs = query_all("SELECT id, fullname, specialization FROM doctors")
+    data = [{"id": d[0], "name": d[1], "specialization": d[2]} for d in docs]
+    from flask import jsonify
+    return jsonify(data)

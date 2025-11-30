@@ -11,6 +11,7 @@
     
     <h5 style="margin-top:20px;">Doctors' List</h5>
     <ul class="widget-list">
+      
     {% for d in doctors %}
         <li class="widget-list-item">
             <div class="item-info">
@@ -20,6 +21,7 @@
             <div class="item-actions">
                 <a href="{{url_for('patient.doctor_availability',doc_id=d[0])}}" class="btn btn-primary">Check Availability</a>
             </div>
+
         </li>
     {% endfor %}
     

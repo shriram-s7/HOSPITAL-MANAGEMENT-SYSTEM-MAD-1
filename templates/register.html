@@ -13,8 +13,10 @@
       
       {% with messages=get_flashed_messages(with_categories=true) %}
         {% if messages %}
+
           <ul class="flash-messages">
           {% for category,message in messages %}
+
             <li class="flash-{{category}}">{{message}}</li>
           {% endfor %}
           </ul>
@@ -29,12 +31,14 @@
 
         <div class="form-group">
           <label for="username">Username</label>
+
           <input type="text" id="username" name="username" class="form-control" required>
         </div>
         
         <div class="form-group">
           <label for="password">Password</label>
           <input type="password" id="password" name="password" class="form-control" required>
+          
         </div>
         
         <button type="submit" class="btn btn-success">Register</button>
