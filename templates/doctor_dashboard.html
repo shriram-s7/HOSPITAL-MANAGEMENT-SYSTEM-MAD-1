@@ -1,123 +1,107 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="page-title">
-  <h3>Doctor Dashboard - {{ doctor[1] }}</h3>
+    <h3>Doctor Dashboard - {{doctor[1]}}</h3>
 </div>
 
 <div class="dashboard-grid">
-
-  <div class="dashboard-widget full-width">
-    <h5>Upcoming Appointments</h5>
-    <div class="table-wrapper">
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Patient</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% if appointments %}
-            {% for a in appointments %}
-            <tr>
-              <td>
-                {{ a[1] }}
-                <a href="{{ url_for('doctor.patient_history', patient_id=a[5]) }}" class="btn btn-small btn-secondary">View History</a>
-              </td>
-              <td>{{ a[2] }}</td>
-              <td>{{ a[3] }}</td>
-              <td class="action-cell">
-                <form method="post" action="{{ url_for('doctor.complete_appointment', aid=a[0]) }}">
-                  <div class="form-group">
-                    <input name="diagnosis_{{ a[0] }}" placeholder="Diagnosis" class="form-control" required>
-                  </div>
-                  <div class="form-group">
-                    <input name="prescription_{{ a[0] }}" placeholder="Prescription / Medicines" class="form-control">
-                  </div>
-                  <button type="submit" class="btn btn-success">Mark as Complete</button>
-                </form>
-              </td>
-            </tr>
-            {% endfor %}
-          {% else %}
-            <tr>
-              <td colspan="4" style="text-align: center;">No upcoming appointments.</td>
-            </tr>
-          {% endif %}
-        </tbody>
-      </table>
+    <div class="dashboard-widget full-width">
+        <h5>Upcoming Appointments</h5>
+        <div class="table-wrapper">
+            <table class="data-table">
+                <thead><tr><th>Patient</th><th>Date</th><th>Time</th><th>Actions</th></tr></thead>
+                <tbody>
+                {% if appointments %}
+                    {% for a in appointments %}
+                    <tr>
+                        <td>{{a[1]}}
+                            <a href="{{url_for('doctor.patient_history',patient_id=a[5])}}" class="btn btn-small btn-secondary">View History</a>
+                        </td>
+                        <td>{{a[2]}}</td> <td>{{a[3]}}</td>
+                        <td class="action-cell">
+                            <form method="post" action="{{url_for('doctor.complete_appointment',aid=a[0])}}">
+                                <div class="form-group"><input name="diagnosis_{{a[0]}}" placeholder="Diagnosis" class="form-control" required></div>
+                                <div class="form-group"><input name="prescription_{{a[0]}}" placeholder="Prescription / Medicines" class="form-control"></div>
+                                <button type="submit" class="btn btn-success btn-small" style="margin-bottom:5px;width:100%;">Mark as Complete</button>
+                            </form>
+                            
+                            <form method="post" action="{{url_for('doctor.cancel_appointment',aid=a[0])}}" onsubmit="return confirm('Are you sure you want to cancel this appointment?');">
+                                <button type="submit" class="btn btn-danger btn-small" style="width:100%;">Cancel</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr><td colspan="4" style="text-align:center;">No upcoming appointments.</td></tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
     </div>
-  </div>
 
-  <div class="dashboard-widget">
-    <h5>Provide Availability</h5>
-    <p>Add new, single time slots. Patients will see these grouped by day.</p>
-    <form method="post" action="{{ url_for('doctor.provide_availability') }}">
-      <div class="form-group">
-        <label>Date</label>
-        <input name="date" type="date" class="form-control" required>
-      </div>
-      <div class="form-group">
-        <label>Time Slot</label>
-        <select name="time_slot" class="form-control" required>
-            <option value="">Select a time slot</option>
-            <option value="08:00 AM - 12:00 PM">Morning (8am - 12pm)</option>
-            <option value="01:00 PM - 05:00 PM">Afternoon (1pm - 5pm)</option>
-            <option value="06:00 PM - 09:00 PM">Evening (6pm - 9pm)</option>
-        </select>
-      </div>
-      <button type="submit" class="btn btn-primary">Save</button>
-    </form>
-  </div>
+    <div class="dashboard-widget">
+        <h5>Provide Availability</h5>
+        <p>Add new, single time slots. Patients will see these grouped by day.</p>
+        <form method="post" action="{{url_for('doctor.provide_availability')}}">
+            <div class="form-group"><label>Date</label><input name="date" type="date" class="form-control" required></div>
+            <div class="form-group">
+                <label>Time Slot</label>
+                <select name="time_slot" class="form-control" required>
+                    <option value="">Select a time slot</option>
+                    <option value="08:00 AM - 12:00 PM">Morning (8am - 12pm)</option>
+                    <option value="01:00 PM - 05:00 PM">Afternoon (1pm - 5pm)</option>
+                    <option value="06:00 PM - 09:00 PM">Evening (6pm - 9pm)</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
 
-  <div class="dashboard-widget">
-    <h5>Your Availability</h5>
-    <ul class="widget-list">
-      {% for a in availability %}
-      <li class="widget-list-item">
-        <div class="item-info">
-          <div class="name">{{ a[1] }} | {{ a[2] }}</div>
-          <div class="detail" style="color: {{ 'var(--green)' if a[3]==1 else 'var(--red)' }}">
-            {{ 'Available' if a[3]==1 else 'Booked' }}
-          </div>
-        </div>
-        <div class="item-actions">
-          {% if a[3] == 1 %}
-          <form method="post" action="{{ url_for('doctor.delete_availability', avail_id=a[0]) }}" onsubmit="return confirm('Delete this slot?');">
-            <button class="btn btn-small btn-danger">Delete</button>
-          </form>
-          {% endif %}
-        </div>
-      </li>
-      {% else %}
-         <li class="widget-list-item">No availability slots added yet.</li>
-      {% endfor %}
-    </ul>
-  </div>
-
-  <div class="dashboard-widget">
-    <h5>Patient History</h5>
-    <p>List of all patients you have completed appointments with.</p>
-    <ul class="widget-list">
-      {% if patient_history %}
-        {% for p in patient_history %}
-        <li class="widget-list-item">
-          <div class="item-info">
-            <div class="name">{{ p[1] }}</div>
-            <div class="detail">Last visit: {{ p[2] or 'N/A' }}</div>
-          </div>
-          <div class="item-actions">
-            <a href="{{ url_for('doctor.patient_history', patient_id=p[0]) }}" class="btn btn-small btn-secondary">View History</a>
-          </div>
-        </li>
+    <div class="dashboard-widget">
+        <h5>Your Availability</h5>
+        <ul class="widget-list">
+        {% for a in availability %}
+            <li class="widget-list-item">
+                <div class="item-info">
+                    <div class="name">{{a[1]}} | {{a[2]}}</div>
+                    <div class="detail" style="color:{{'var(--green)' if a[3]==1 else 'var(--red)'}}">
+                        {{'Available' if a[3]==1 else 'Booked'}}
+                    </div>
+                </div>
+                <div class="item-actions">
+                {% if a[3]==1 %}
+                    <form method="post" action="{{url_for('doctor.delete_availability',avail_id=a[0])}}" onsubmit="return confirm('Delete this slot?');">
+                        <button class="btn btn-small btn-danger">Delete</button>
+                    </form>
+                {% endif %}
+                </div>
+            </li>
+        {% else %}
+            <li class="widget-list-item">No availability slots added yet.</li>
         {% endfor %}
-      {% else %}
-        <li class="widget-list-item">No completed patient appointments.</li>
-      {% endif %}
-    </ul>
-  </div>
+        </ul>
+    </div>
 
+    <div class="dashboard-widget">
+        <h5>Patient History</h5>
+        <p>List of all patients you have completed appointments with.</p>
+        <ul class="widget-list">
+        {% if patient_history %}
+            {% for p in patient_history %}
+            <li class="widget-list-item">
+                <div class="item-info">
+                    <div class="name">{{p[1]}}</div>
+                    <div class="detail">Last visit: {{p[2] or 'N/A'}}</div>
+                </div>
+                <div class="item-actions">
+                    <a href="{{url_for('doctor.patient_history',patient_id=p[0])}}" class="btn btn-small btn-secondary">View History</a>
+                </div>
+            </li>
+            {% endfor %}
+        {% else %}
+            <li class="widget-list-item">No completed patient appointments.</li>
+        {% endif %}
+        </ul>
+    </div>
 </div>
 {% endblock %}

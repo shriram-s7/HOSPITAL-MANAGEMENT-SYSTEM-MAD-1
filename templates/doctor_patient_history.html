@@ -1,42 +1,30 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="page-title">
-  <h3>Medical History for {{ patient[1] }}</h3>
-  <a href="{{ url_for('doctor.dashboard') }}">&laquo; Back to Dashboard</a>
+    <h3>Medical History for {{patient[1]}}</h3>
+    <a href="{{url_for('doctor.dashboard')}}">&laquo; Back to Dashboard</a>
 </div>
 
 <div class="dashboard-widget full-width">
-  <h5>All Past Treatments</h5>
-  
-  <div class="table-wrapper">
-    <table class="data-table">
-      <thead>
-        <tr>
-          <th>Visited On</th>
-          <th>Treated By</th>
-          <th>Diagnosis</th>
-          <th>Prescription</th>
-          <th>Recorded At</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% if treatments %}
-          {% for t in treatments %}
-          <tr>
-            <td>{{ t[5] }}</td>
-            <td>Dr. {{ t[6] }}</td>
-            <td>{{ t[2] }}</td>
-            <td>{{ t[3] }}</td>
-            <td>{{ t[4] }}</td>
-          </tr>
-          {% endfor %}
-        {% else %}
-          <tr>
-            <td colspan="5" style="text-align: center;">This patient has no past treatment records.</td>
-          </tr>
-        {% endif %}
-      </tbody>
-    </table>
-  </div>
+    <h5>All Past Treatments</h5>
+    <div class="table-wrapper">
+        <table class="data-table">
+            <thead><tr><th>Visited On</th><th>Treated By</th><th>Diagnosis</th><th>Prescription</th><th>Recorded At</th></tr></thead>
+            <tbody>
+            {% if treatments %}
+                {% for t in treatments %}
+                <tr>
+                    <td>{{t[5]}}</td>
+                    <td>Dr. {{t[6]}}</td>
+                    <td>{{t[2]}}</td> <td>{{t[3]}}</td>
+                    <td>{{t[4]}}</td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr><td colspan="5" style="text-align:center;">This patient has no past treatment records.</td></tr>
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}

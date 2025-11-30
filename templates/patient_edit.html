@@ -1,28 +1,33 @@
 {% extends "base.html" %}
 {% block content %}
+
 <div class="page-title">
   <h3>Edit Your Profile</h3>
-  <a href="{{ url_for('patient.dashboard') }}">&laquo; Back to Dashboard</a>
+  <a href="{{url_for('patient.dashboard')}}">&laquo; Back to Dashboard</a>
 </div>
 
 <div class="dashboard-widget">
   <form method="post">
     <div class="form-group">
       <label>Full name</label>
-      <input name="fullname" class="form-control" value="{{ patient[1] }}">
+      <input name="fullname" class="form-control" value="{{patient[1]}}">
     </div>
+
     <div class="form-group">
       <label>Contact</label>
-      <input name="contact" class="form-control" value="{{ patient[2] }}">
+      <input name="contact" class="form-control" value="{{patient[2]}}">
     </div>
+    
     <div class="form-group">
       <label>Age</label>
-      <input name="age" class="form-control" value="{{ patient[3] or '' }}">
+      <input name="age" class="form-control" value="{{patient[3] or ''}}">
     </div>
+
     <div class="form-group">
       <label>Gender</label>
-      <input name="gender" class="form-control" value="{{ patient[4] or '' }}">
+      <input name="gender" class="form-control" value="{{patient[4] or ''}}">
     </div>
+    
     <button type="submit" class="btn btn-primary">Save Profile</button>
   </form>
 </div>

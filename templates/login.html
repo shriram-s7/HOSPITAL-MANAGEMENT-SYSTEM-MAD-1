@@ -3,35 +3,37 @@
 <head>
   <meta charset="utf-8">
   <title>Login - HMS</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link rel="stylesheet" href="{{url_for('static',filename='style.css')}}">
 </head>
 <body>
   <div class="login-register-container">
     <div class="form-box">
       <h3>Login Form</h3>
       
-      {% with messages = get_flashed_messages(with_categories=true) %}
+      {% with messages=get_flashed_messages(with_categories=true) %}
         {% if messages %}
           <ul class="flash-messages">
-          {% for category, message in messages %}
-            <li class="flash-{{ category }}">{{ message }}</li>
+          {% for category,message in messages %}
+            <li class="flash-{{category}}">{{message}}</li>
           {% endfor %}
           </ul>
         {% endif %}
       {% endwith %}
 
-      <form method="post" action="{{ url_for('auth.login') }}">
+      <form method="post" action="{{url_for('auth.login')}}">
         <div class="form-group">
           <label for="username">Username</label>
           <input type="text" id="username" name="username" class="form-control" required>
         </div>
+
         <div class="form-group">
           <label for="password">Password</label>
           <input type="password" id="password" name="password" class="form-control" required>
         </div>
         <button type="submit" class="btn btn-primary">Login</button>
       </form>
-      <p>Do not have an account? <a href="{{ url_for('auth.register') }}">Register</a></p>
+
+      <p>Do not have an account? <a href="{{url_for('auth.register')}}">Register</a></p>
     </div>
   </div>
 </body>

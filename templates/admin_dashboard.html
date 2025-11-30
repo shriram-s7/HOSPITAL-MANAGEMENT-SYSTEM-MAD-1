@@ -1,106 +1,111 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="page-title">
-  <h3>Admin Dashboard</h3>
+    <h3>Admin Dashboard</h3>
+</div>
+
+<div class="mb-4" style="display:flex;gap:20px;margin-bottom:20px;">
+    <div class="dashboard-widget" style="flex:1;text-align:center;">
+        <h3>{{stats[0]}}</h3> <p>Total Doctors</p>
+    </div>
+    <div class="dashboard-widget" style="flex:1;text-align:center;">
+        <h3>{{stats[1]}}</h3> <p>Total Patients</p>
+    </div>
+    <div class="dashboard-widget" style="flex:1;text-align:center;">
+        <h3>{{stats[2]}}</h3> <p>Total Appointments</p>
+    </div>
 </div>
 
 <div class="dashboard-grid">
+    <div class="dashboard-widget">
+        <h5>Registered Doctors</h5>
+        <ul class="widget-list">
+        {% for d in doctors %}
+            <li class="widget-list-item">
+                <div class="item-info">
+                    <div class="name">{{d[2] or d[1]}}</div> <div class="detail">{{d[3]}}</div>
+                </div>
+                <div class="item-actions">
+                    <a href="{{url_for('admin.edit_doctor',doc_id=d[0])}}" class="btn btn-small btn-secondary">Edit</a>
+                    <form method="post" action="{{url_for('admin.blacklist_user',user_id=d[4])}}" style="display:inline" onsubmit="return confirm('Blacklist this user?');">
+                        <button type="submit" class="btn btn-small btn-danger">Blacklist</button>
+                    </form>
+                </div>
+            </li>
+        {% endfor %}
+        </ul>
+        <hr>
 
-  <div class="dashboard-widget">
-    <h5>Registered Doctors</h5>
-    <ul class="widget-list">
-      {% for d in doctors %}
-      <li class="widget-list-item">
-        <div class="item-info">
-          <div class="name">{{ d[2] or d[1] }}</div>
-          <div class="detail">{{ d[3] }}</div>
-        </div>
-        <div class="item-actions">
-          <form method="post" action="{{ url_for('admin.blacklist_user', user_id=d[4]) }}" style="display:inline" onsubmit="return confirm('Blacklist this user?');">
-            <button type="submit" class="btn btn-small btn-danger">Blacklist</button>
-          </form>
-        </div>
-      </li>
-      {% endfor %}
-    </ul>
-    
-    <hr>
-    <h5>Add a new Doctor</h5>
-    <form action="{{ url_for('admin.add_doctor') }}" method="post">
-      <div class="form-group">
-        <label>Full Name</label>
-        <input name="fullname" class="form-control" required>
-      </div>
-      <div class="form-group">
-        <label>Username</label>
-        <input name="username" class="form-control" required>
-      </div>
-      <div class="form-group">
-        <label>Password</label>
-        <input name="password" type="password" class="form-control" required>
-      </div>
-      <div class="form-group">
-        <label>Specialization/Department</label>
-        <input name="specialization" class="form-control" placeholder="e.g., Cardiology" required>
-      </div>
-      <div class="form-group">
-        <label>Bio (Short Description)</label>
-        <textarea name="bio" class="form-control"></textarea>
-      </div>
-      <button type="submit" class="btn btn-primary">Create</button>
-    </form>
-  </div>
-
-  <div class="dashboard-widget">
-    <h5>Registered Patients</h5>
-    <ul class="widget-list">
-      {% for p in patients %}
-      <li class="widget-list-item">
-        <div class="item-info">
-          <div class="name">{{ p[2] or p[1] }}</div>
-          <div class="detail">{{ p[3] }}</div>
-        </div>
-        <div class="item-actions">
-          <form method="post" action="{{ url_for('admin.blacklist_user', user_id=p[4]) }}" style="display:inline" onsubmit="return confirm('Blacklist this user?');">
-            <button type="submit" class="btn btn-small btn-danger">Blacklist</button>
-          </form>
-        </div>
-      </li>
-      {% endfor %}
-    </ul>
-  </div>
-
-  <div class="dashboard-widget">
-    <h5>Upcoming Appointments</h5>
-    <div class="table-wrapper">
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Patient</th>
-            <th>Doctor</th>
-            <th>Department</th>
-            <th>Date</th>
-            <th>Time</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for a in appointments %}
-          <tr>
-            <td>{{ a[1] }}</td>
-            <td>{{ a[2] }}</td>
-            
-            <td>{{ a[6] or 'N/A' }}</td>
-            
-            <td>{{ a[3] }}</td>
-            <td>{{ a[4] }}</td>
-            <td>{{ a[5] }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+        <h5>Add a new Doctor</h5>
+        <form action="{{url_for('admin.add_doctor')}}" method="post">
+            <div class="form-group"><label>Full Name</label><input name="fullname" class="form-control" required></div>
+            <div class="form-group"><label>Username</label><input name="username" class="form-control" required></div>
+            <div class="form-group"><label>Password</label><input name="password" type="password" class="form-control" required></div>
+            <div class="form-group"><label>Specialization</label><input name="specialization" class="form-control" placeholder="e.g., Cardiology" required></div>
+            <button type="submit" class="btn btn-primary">Create</button>
+        </form>
     </div>
-  </div>
 
+    <div class="dashboard-widget">
+        <h5>Registered Patients</h5>
+        <ul class="widget-list">
+        {% for p in patients %}
+            <li class="widget-list-item">
+                <div class="item-info">
+                    <div class="name">{{p[2] or p[1]}} (ID: {{p[0]}})</div>
+                    <div class="detail">{{p[3]}}</div>
+                </div>
+                <div class="item-actions">
+                    <a href="{{url_for('admin.edit_patient',patient_id=p[0])}}" class="btn btn-small btn-secondary">Edit</a>
+                    <form method="post" action="{{url_for('admin.blacklist_user',user_id=p[4])}}" style="display:inline" onsubmit="return confirm('Blacklist this user?');">
+                        <button type="submit" class="btn btn-small btn-danger">Blacklist</button>
+                    </form>
+                </div>
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+
+    <div class="dashboard-widget full-width">
+        <h5 style="color:var(--blue);">Upcoming Appointments (Booked)</h5>
+        <div class="table-wrapper" style="margin-bottom:30px;">
+            <table class="data-table">
+                <thead><tr><th>Patient</th><th>Doctor</th><th>Department</th><th>Date</th><th>Time</th><th>Status</th></tr></thead>
+                <tbody>
+                {% if upcoming_appointments %}
+                    {% for a in upcoming_appointments %}
+                    <tr>
+                        <td>{{a[1]}}</td> <td>{{a[2]}}</td> <td>{{a[6] or 'N/A'}}</td>
+                        <td>{{a[3]}}</td> <td>{{a[4]}}</td>
+                        <td><span style="color:green;font-weight:bold;">{{a[5]}}</span></td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr><td colspan="6" style="text-align:center">No upcoming appointments.</td></tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+        <h5 style="color:var(--grey);">Past Appointments (Completed/Cancelled)</h5>
+        <div class="table-wrapper">
+            <table class="data-table">
+                <thead><tr><th>Patient</th><th>Doctor</th><th>Department</th><th>Date</th><th>Time</th><th>Status</th></tr></thead>
+                <tbody>
+                {% if past_appointments %}
+                    {% for a in past_appointments %}
+                    <tr>
+                        <td>{{a[1]}}</td> <td>{{a[2]}}</td> <td>{{a[6] or 'N/A'}}</td>
+                        <td>{{a[3]}}</td> <td>{{a[4]}}</td>
+                        <td><span style="color:{{'red' if a[5]=='Cancelled' else 'blue'}};">{{a[5]}}</span></td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr><td colspan="6" style="text-align:center">No past appointments.</td></tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 {% endblock %}
