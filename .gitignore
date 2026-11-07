@@ -1,0 +1,12 @@
+﻿__pycache__/
+*.pyc
+*.db
+.env
+*.key
+venv/
+.venv/
+node_modules/
+.claude-dev-helper/
+# demo video and local media
+media/
+*.mp4
